@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login e Cadastro</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-toggle">
+                <button id="login-toggle" class="active">Login</button>
+                <button id="signup-toggle">Cadastro</button>
+            </div>
+
+            <!-- Formulário de Login -->
+            <form id="login-form" class="form">
+                <h2>Login</h2>
+                <input type="email" name="email" placeholder="Email" required />
+                <div class="password-wrapper">
+                    <input type="password" id="login_password" name="password" placeholder="Senha" required />
+                    <span class="toggle-password" toggle="#login_password">&#128065;</span>
+                </div>
+                <button type="submit">Entrar</button>
+            </form>
+
+            <!-- Formulário de Cadastro -->
+            <form id="signup-form" class="form" style="display:none;">
+                <h2>Cadastro</h2>
+                <input type="text" name="name" placeholder="Nome" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <input type="email" name="confirm_email" placeholder="Confirmar Email" required />
+
+                <div class="password-wrapper">
+                    <input type="password" id="signup_password" name="password" placeholder="Senha" required />
+                    <span class="toggle-password" toggle="#signup_password">&#128065;</span>
+                </div>
+
+                <div class="password-wrapper">
+                    <input type="password" id="signup_confirm_password" name="confirm_password" placeholder="Confirmar Senha" required />
+                    <span class="toggle-password" toggle="#signup_confirm_password">&#128065;</span>
+                </div>
+
+                <button type="submit">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
