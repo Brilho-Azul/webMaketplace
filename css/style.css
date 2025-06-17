@@ -194,3 +194,63 @@ body {
         padding: 12px;
     }
 }
+
+@media (max-width: 420px) {
+    header {
+        padding: 10px 15px;
+    }
+
+    header h1 {
+        font-size: 1rem;
+    }
+
+    .actions button {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+
+    .card h3,
+    .produto-card h3 {
+        font-size: 0.9rem;
+    }
+
+    .card p,
+    .produto-card p {
+        font-size: 0.8rem;
+    }
+
+    .dashboard-container,
+    .dashboard-produtos {
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 320px) {
+    header {
+        padding: 8px 10px;
+    }
+
+    header h1 {
+        font-size: 0.9rem;
+    }
+
+    .actions button {
+        font-size: 0.8rem;
+        padding: 8px 14px;
+    }
+
+    .card h3,
+    .produto-card h3 {
+        font-size: 0.85rem;
+    }
+
+    .card p,
+    .produto-card p {
+        font-size: 0.75rem;
+    }
+
+    .dashboard-container,
+    .dashboard-produtos {
+        padding: 15px 10px;
+    }
+}
