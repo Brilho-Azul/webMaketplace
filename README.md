@@ -1,7 +1,7 @@
 # 💻 Projeto - Sistema de Login, Cadastro e Futuro Marketplace
 
 ## 📑 Descrição
-Este projeto foi desenvolvido como parte do trabalho da disciplina de **Análise e Desenvolvimento de Sistemas**. Atualmente, consiste em um sistema de **Login e Cadastro responsivo**, utilizando HTML, CSS e JavaScript. 
+Este projeto está sendo desenvolvido como parte do trabalho da disciplina de Programação para Web, um minisistema. Atualmente, consiste em um sistema de **Login e Cadastro responsivo**, utilizando HTML, CSS e JavaScript. 
 
 O sistema possui uma interface intuitiva com alternância entre as telas de login e cadastro, além de um design moderno e adaptável a diferentes tamanhos de tela.
 
