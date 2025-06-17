@@ -18,20 +18,17 @@ O sistema possui uma interface intuitiva com alternância entre as telas de logi
 ---
 
 ## 🔥 Funcionalidades futuras (Em desenvolvimento)
-- [ ] Tela de **Listagem de Produtos**
-- [ ] Tela de **Carrinho de Compras**
-- [ ] Tela de **Checkout e Pagamento**
-- [ ] Tela de **Dashboard** (Gerente)
-- [ ] Controle de acesso (Admin e Usuário comum)
-- [ ] Sistema completo de **CRUD**:
-  - [ ] **Cadastro** de usuários e produtos
-  - [ ] **Listagem** de dados (usuários, produtos, pedidos)
-  - [ ] **Edição** de dados
-  - [ ] **Exclusão** de dados
-- [ ] Integração com **PHP e PostgreSQL**
-- [ ] Implementação de **Login funcional** com verificação no banco de dados
-- [ ] Sistema de **sessões e autenticação** (Opcional)
-- [ ] Criptografia de senhas (Opcional)
+- [x] Tela de **Dashboard** (Gerente)
+- [x] Controle de acesso (Admin e Cliente comum)
+- [x] Sistema completo de **CRUD**:
+  - [x] **Cadastro** de usuários, produtos e servicos
+  - [x] **Listagem** de dados (produtos e servicos)
+  - [x] **Edição** de dados (produtos e servicos)
+  - [x] **Exclusão** de dados (produtos e servicos)
+- [x] Integração com **PHP e SQL Lite**
+- [x] Implementação de **Login funcional** com verificação no banco de dados
+- [x] Sistema de **sessões e autenticação** (Opcional)
+- [x] Criptografia de senhas 
 
 ---
 
@@ -42,7 +39,7 @@ O sistema possui uma interface intuitiva com alternância entre as telas de logi
   - JavaScript
 - ✅ **Backend (Futuro):**
   - PHP
-  - PostgreSQL
+  - SQL Lite
 - ✅ **Versionamento:**
   - Git e GitHub
 
