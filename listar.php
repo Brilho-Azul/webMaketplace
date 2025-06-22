@@ -1,16 +1,16 @@
 <?php
-// Lista produtos e serviços
+
+require 'conexao.php';
 
 try {
-    $db = new PDO('sqlite:' . __DIR__ . '/banco.db');
+    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Buscar produtos e serviços
     $produtos = $db->query("SELECT * FROM produtos ORDER BY criado_em DESC")->fetchAll(PDO::FETCH_ASSOC);
     $servicos = $db->query("SELECT * FROM servicos ORDER BY criado_em DESC")->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
-    die("Erro: " . $e->getMessage());
+    die("Erro na conexão: " . $e->getMessage());
 }
 ?>
 

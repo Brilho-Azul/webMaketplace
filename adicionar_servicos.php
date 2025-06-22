@@ -1,12 +1,9 @@
 <?php
-// Adciona serviços
-try {
-    $db = new PDO('sqlite:' . __DIR__ . '/banco.db');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erro: " . $e->getMessage());
-}
+require_once 'conexao.php';
 
+$nome = '';
+$descricao = '';
+$preco = '';
 $erros = [];
 $sucesso = '';
 
@@ -33,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">

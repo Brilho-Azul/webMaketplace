@@ -1,20 +1,20 @@
 <?php
-$db = new PDO('sqlite:' . __DIR__ . '/banco.db');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require_once 'conexao.php';
 
-// Aqui para deletar algum produto
+$tipo = $_GET['tipo'] ?? null;
 $id = $_GET['id'] ?? null;
-if ($id && is_numeric($id)) {
-    $stmt = $db->prepare("DELETE FROM produtos WHERE id = ?");
-    $stmt->execute([$id]);
+
+if ($tipo && $id && is_numeric($id)) {
+    if ($tipo === 'produto') {
+        $stmt = $db->prepare("DELETE FROM produtos WHERE id = ?");
+        $stmt->execute([$id]);
+    } elseif ($tipo === 'servico') {
+        $stmt = $db->prepare("DELETE FROM servicos WHERE id = ?");
+        $stmt->execute([$id]);
+    }
 }
 
-// Aqui para deletar algum produto
-$id = $_GET['id'] ?? null;
-if ($id && is_numeric($id)) {
-    $stmt = $db->prepare("DELETE FROM servicos WHERE id = ?");
-    $stmt->execute([$id]);
-}
-
+// Redireciona de volta para a lista
 header('Location: listar.php');
 exit;
+?>

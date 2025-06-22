@@ -1,37 +1,65 @@
 <?php
+$host = 'localhost';
+$dbname = 'banco_brilho_azul';
+$user = 'root';
+$pass = '';
+
+// Caso o banco não exista, ele tenta criar um banco e coloca as tabelas.
+
 try {
-    $db = new PDO('sqlite:' . __DIR__ . '/banco.db');
+    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Aqui cria as tabelas, caso não existe, e a chama de banco.db
+
     $db->exec("CREATE TABLE IF NOT EXISTS usuarios (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE,
-        senha TEXT NOT NULL,
-        usuario_tipo TEXT NOT NULL DEFAULT 'cliente' 
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(100) NOT NULL,
+        email VARCHAR(100) NOT NULL UNIQUE,
+        senha VARCHAR(255) NOT NULL,
+        usuario_tipo VARCHAR(50) NOT NULL DEFAULT 'cliente'
     )");
 
-    
     $db->exec("CREATE TABLE IF NOT EXISTS produtos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT NOT NULL,
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(100) NOT NULL,
         descricao TEXT,
-        preco REAL NOT NULL,
-        estoque INTEGER DEFAULT 0,
-        criado_em DATETIME DEFAULT (datetime('now'))
+        preco DECIMAL(10,2) NOT NULL,
+        estoque INT DEFAULT 0,
+        criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
     $db->exec("CREATE TABLE IF NOT EXISTS servicos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT NOT NULL,
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(100) NOT NULL,
         descricao TEXT,
-        preco REAL NOT NULL,
-        criado_em DATETIME DEFAULT (datetime('now'))
+        preco DECIMAL(10,2) NOT NULL,
+        criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
+    // Professor, acesse essa conta para utilizar os fundamentos do CRUD
+    $nome = 'Gerente';
+    $email = 'gerente@admin.com';
+    $senha = password_hash('gerente123', PASSWORD_DEFAULT); 
+    $usuario_tipo = 'gerente';
+
+    $verifica = $db->prepare("SELECT * FROM usuarios WHERE email = :email");
+    $verifica->bindParam(':email', $email);
+    $verifica->execute();
+
+    if ($verifica->rowCount() == 0) {
+        $stmt = $db->prepare("INSERT INTO usuarios (nome, email, senha, usuario_tipo) VALUES (:nome, :email, :senha, :usuario_tipo)");
+        $stmt->bindParam(':nome', $nome);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':senha', $senha);
+        $stmt->bindParam(':usuario_tipo', $usuario_tipo);
+        $stmt->execute();
+
+    } else {
+
+    }
+
 } catch (PDOException $e) {
-    echo "Erro na conexão: " . $e->getMessage();
+    echo "<script>console.error('❌ Erro na conexão: " . addslashes($e->getMessage()) . "');</script>";
     exit;
 }
 ?>

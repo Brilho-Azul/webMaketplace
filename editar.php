@@ -1,12 +1,6 @@
 <?php
-// editar.php - Edita produto ou serviço
 
-try {
-    $db = new PDO('sqlite:' . __DIR__ . '/banco.db');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erro: " . $e->getMessage());
-}
+require_once 'conexao.php';
 
 $tipo = $_GET['tipo'] ?? 'produto';
 $id = intval($_GET['id'] ?? 0);

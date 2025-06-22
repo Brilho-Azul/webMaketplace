@@ -1,19 +1,22 @@
 <?php
-// Adciona produtos
-try {
-    $db = new PDO('sqlite:' . __DIR__ . '/banco.db');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erro: " . $e->getMessage());
-}
+
+require_once 'conexao.php';
 
 $erros = [];
 $sucesso = '';
 
+$nome = '';
+$descricao = '';
+$preco = '';
+$estoque = 0;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $descricao = trim($_POST['descricao'] ?? '');
-    $preco = floatval(str_replace(',', '.', $_POST['preco'] ?? '0'));
+    
+    $preco_str = str_replace(',', '.', $_POST['preco'] ?? '0');
+    $preco = floatval($preco_str);
+    
     $estoque = intval($_POST['estoque'] ?? 0);
 
     if ($nome === '') {
@@ -26,13 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erros[] = 'Estoque não pode ser negativo.';
     }
 
+
     if (!$erros) {
         $stmt = $db->prepare("INSERT INTO produtos (nome, descricao, preco, estoque) VALUES (?, ?, ?, ?)");
         $stmt->execute([$nome, $descricao, $preco, $estoque]);
 
         $sucesso = "Produto adicionado com sucesso!";
-        $nome = $descricao = '';
-        $preco = $estoque = 0;
+        $nome = '';
+        $descricao = '';
+        $preco = '';
+        $estoque = 0;
     }
 }
 ?>

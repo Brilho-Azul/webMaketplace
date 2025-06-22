@@ -2,6 +2,15 @@
 session_start();
 require 'conexao.php';
 
+// Verifica se o banco foi conectado 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if ($db) {
+        echo "<script>console.log('✔️ Banco conectado e tabelas preparadas.');</script>";
+    } else {
+        echo "<script>console.error('❌ Banco não conectado.');</script>";
+    }
+}
+
 function respond_json($success, $message, $redirect = null) {
     header('Content-Type: application/json');
     echo json_encode(['success' => $success, 'message' => $message, 'redirect' => $redirect]);
@@ -27,9 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($usuario && password_verify($senha, $usuario['senha'])) {
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['usuario_nome'] = $usuario['nome'];
-                $_SESSION['usuario_tipo'] = $usuario['usuario_tipo']; // assume que tem coluna 'tipo' = 'cliente' ou 'gerente'
+                $_SESSION['usuario_tipo'] = $usuario['usuario_tipo'];
 
-                // Redirecionamento conforme tipo
                 if ($usuario['usuario_tipo'] === 'gerente') {
                     respond_json(true, 'Login realizado com sucesso! Redirecionando para dashboard do gerente...', 'dashboard_gerente.php');
                 } else {
@@ -40,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
         } elseif ($form_type === 'signup') {
-            // Cadastro só para clientes
             $nome = trim($_POST['nome'] ?? '');
             $email = trim($_POST['email'] ?? '');
             $senha = $_POST['password'] ?? '';
@@ -52,12 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
             try {
-                // Aqui sempre insere tipo 'cliente'
                 $stmt = $db->prepare("INSERT INTO usuarios (nome, email, senha, usuario_tipo) VALUES (?, ?, ?, 'cliente')");
                 $stmt->execute([$nome, $email, $senhaHash]);
                 respond_json(true, 'Cadastro realizado com sucesso! Faça login para continuar.');
             } catch (PDOException $e) {
-                if ($e->getCode() == '23000') {
+                if ($e->getCode() == '23000') { // chave única violada, email duplicado
                     respond_json(false, 'Email já cadastrado.');
                 } else {
                     respond_json(false, 'Erro: ' . $e->getMessage());
@@ -71,7 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
