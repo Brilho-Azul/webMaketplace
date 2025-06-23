@@ -1,16 +1,28 @@
 <?php
 $host = 'localhost';
-$dbname = 'banco_brilho_azul';
 $user = 'root';
 $pass = '';
-
-// Caso o banco não exista, ele tenta criar um banco e coloca as tabelas.
+$dbname = 'banco_brilho_azul';
 
 try {
-    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+    // Conecta no servidor MySQL (sem banco ainda)
+    $pdo = new PDO("mysql:host=$host", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Cria o banco se não existir
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS $dbname CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+
+} catch (PDOException $e) {
+    die("Erro ao criar banco: " . $e->getMessage());
+}
+
+// Agora conecta no banco
+try {
+    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
+    // Cria as tabelas
     $db->exec("CREATE TABLE IF NOT EXISTS usuarios (
         id INT AUTO_INCREMENT PRIMARY KEY,
         nome VARCHAR(100) NOT NULL,
@@ -36,10 +48,11 @@ try {
         criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
+
     // Professor, acesse essa conta para utilizar os fundamentos do CRUD
     $nome = 'Gerente';
     $email = 'gerente@admin.com';
-    $senha = password_hash('gerente123', PASSWORD_DEFAULT); 
+    $senha = password_hash('gerente123', PASSWORD_DEFAULT);
     $usuario_tipo = 'gerente';
 
     $verifica = $db->prepare("SELECT * FROM usuarios WHERE email = :email");
@@ -53,13 +66,10 @@ try {
         $stmt->bindParam(':senha', $senha);
         $stmt->bindParam(':usuario_tipo', $usuario_tipo);
         $stmt->execute();
-
     } else {
-
     }
 
 } catch (PDOException $e) {
-    echo "<script>console.error('❌ Erro na conexão: " . addslashes($e->getMessage()) . "');</script>";
-    exit;
+    die("Erro na conexão com o banco: " . $e->getMessage());
 }
 ?>
