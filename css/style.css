@@ -1,0 +1,256 @@
+/* Estilos Globais */
+
+* {
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background-image: url('../img/fundo-piscina.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #2c3e50;
+    overflow-x: hidden;
+}
+
+
+/* Container Geral */
+
+.container {
+    background: #e0f7fa;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 105, 148, 0.3);
+    width: 95%;
+    max-width: 420px;
+    min-width: 320px;
+    padding: 40px 35px;
+    min-height: 520px;
+}
+
+
+/* Alternador Login/Cadastro */
+
+.form-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    background: #b2ebf2;
+    border-radius: 12px;
+    box-shadow: inset 5px 5px 15px #81d4fa,
+                inset -5px -5px 15px #e0f7fa;
+}
+
+.form-toggle button {
+    flex: 1;
+    padding: 16px 0;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    font-size: 17px;
+    color: #0277bd;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+}
+
+.form-toggle button.active {
+    background: #03a9f4;
+    color: white;
+    box-shadow: 0 5px 15px rgba(3, 169, 244, 0.6);
+}
+
+
+/* Formulários */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.form h2 {
+    text-align: center;
+    margin-bottom: 28px;
+    font-weight: 700;
+    color: #01579b;
+}
+
+.form input {
+    padding: 14px 15px;
+    margin-bottom: 20px;
+    border: 1.8px solid #4fc3f7;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: border-color 0.3s ease;
+}
+
+.form input:focus {
+    border-color: #0288d1;
+    outline: none;
+    box-shadow: 0 0 8px #03a9f4;
+}
+
+.form button {
+    padding: 14px;
+    background: #0288d1;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-shadow: 0 8px 16px rgba(3, 169, 244, 0.5);
+}
+
+.form button:hover {
+    background: #0277bd;
+}
+
+
+/*  Mostrar Senha */
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 45px; /* Espaço para o ícone */
+}
+
+.toggle-password {
+    position: absolute;
+    top: 35%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #0288d1;
+    font-size: 20px;
+    user-select: none;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: #01579b;
+}
+
+
+/* Animações */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Responsividade */
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 25px;
+    }
+    .form-toggle button {
+        font-size: 16px;
+    }
+    .form input {
+        font-size: 15px;
+    }
+    .form button {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 420px) {
+    .container {
+        padding: 30px 20px;
+        min-height: auto;
+    }
+    .toggle-password {
+        font-size: 18px;
+        right: 12px;
+    }
+}
+
+@media (max-width: 320px) {
+    .form-toggle button {
+        font-size: 14px;
+        padding: 12px 0;
+    }
+    .form input {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+    .form button {
+        font-size: 14px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 420px) {
+    header {
+        padding: 10px 15px;
+    }
+
+    header h1 {
+        font-size: 1rem;
+    }
+
+    .actions button {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+
+    .card h3,
+    .produto-card h3 {
+        font-size: 0.9rem;
+    }
+
+    .card p,
+    .produto-card p {
+        font-size: 0.8rem;
+    }
+
+    .dashboard-container,
+    .dashboard-produtos {
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 320px) {
+    header {
+        padding: 8px 10px;
+    }
+
+    header h1 {
+        font-size: 0.9rem;
+    }
+
+    .actions button {
+        font-size: 0.8rem;
+        padding: 8px 14px;
+    }
+
+    .card h3,
+    .produto-card h3 {
+        font-size: 0.85rem;
+    }
+
+    .card p,
+    .produto-card p {
+        font-size: 0.75rem;
+    }
+
+    .dashboard-container,
+    .dashboard-produtos {
+        padding: 15px 10px;
+    }
+}
