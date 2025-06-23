@@ -49,7 +49,7 @@ try {
     )");
 
 
-    // Professor, acesse essa conta para utilizar os fundamentos do CRUD
+    // Professor, acesse essa conta para utilizar os fundamentos do CRUD.
     $nome = 'Gerente';
     $email = 'gerente@admin.com';
     $senha = password_hash('gerente123', PASSWORD_DEFAULT);
@@ -73,3 +73,4 @@ try {
     die("Erro na conexão com o banco: " . $e->getMessage());
 }
 ?>
+
