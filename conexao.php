@@ -21,7 +21,6 @@ try {
     $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-
     // Cria as tabelas
     $db->exec("CREATE TABLE IF NOT EXISTS usuarios (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,6 +36,8 @@ try {
         descricao TEXT,
         preco DECIMAL(10,2) NOT NULL,
         estoque INT DEFAULT 0,
+        marca VARCHAR(100) DEFAULT NULL,
+        fabricante VARCHAR(100) DEFAULT NULL,
         criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
@@ -45,11 +46,11 @@ try {
         nome VARCHAR(100) NOT NULL,
         descricao TEXT,
         preco DECIMAL(10,2) NOT NULL,
+        fornecedor VARCHAR(100) DEFAULT NULL,
         criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
-
-    // Professor, acesse essa conta para utilizar os fundamentos do CRUD.
+    // Criação do usuário gerente padrão, acesse esse dados para acessar os princípios do CRUD
     $nome = 'Gerente';
     $email = 'gerente@admin.com';
     $senha = password_hash('gerente123', PASSWORD_DEFAULT);
@@ -66,11 +67,9 @@ try {
         $stmt->bindParam(':senha', $senha);
         $stmt->bindParam(':usuario_tipo', $usuario_tipo);
         $stmt->execute();
-    } else {
     }
 
 } catch (PDOException $e) {
     die("Erro na conexão com o banco: " . $e->getMessage());
 }
 ?>
-

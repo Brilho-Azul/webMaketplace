@@ -4,6 +4,7 @@ require_once 'conexao.php';
 $nome = '';
 $descricao = '';
 $preco = '';
+$fornecedor = '';
 $erros = [];
 $sucesso = '';
 
@@ -11,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $descricao = trim($_POST['descricao'] ?? '');
     $preco = floatval(str_replace(',', '.', $_POST['preco'] ?? '0'));
+    $fornecedor = trim($_POST['fornecedor'] ?? '');
 
     if ($nome === '') {
         $erros[] = 'Nome é obrigatório.';
@@ -20,16 +22,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$erros) {
-        $stmt = $db->prepare("INSERT INTO servicos (nome, descricao, preco) VALUES (?, ?, ?)");
-        $stmt->execute([$nome, $descricao, $preco]);
+        $stmt = $db->prepare("INSERT INTO servicos (nome, descricao, preco, fornecedor) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$nome, $descricao, $preco, $fornecedor]);
 
         $sucesso = "Serviço cadastrado com sucesso!";
         $nome = '';
         $descricao = '';
         $preco = '';
+        $fornecedor = '';
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -68,18 +72,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="POST">
             <label>Nome</label>
-            <input type="text" name="nome" value="<?= htmlspecialchars($nome ?? '') ?>" required>
+            <input type="text" name="nome" value="<?= htmlspecialchars($nome ?? '') ?>" required placeholder="Digite o nome do serviço">
 
+            <label for="preco">Preço (R$):</label>
+            <input type="text" id="preco" name="preco" value="<?= htmlspecialchars($preco) ?>" required pattern="^\d+(\,\d{1,2})?$" placeholder="0,00" />
+
+            <label for="fornecedor">Fornecedor:</label>
+            <input type="text" id="fornecedor" name="fornecedor" value="<?= htmlspecialchars($fornecedor) ?>" placeholder="Digite o nome do fornecedor" />
+            
             <label>Descrição</label>
-            <textarea name="descricao" rows="3"><?= htmlspecialchars($descricao ?? '') ?></textarea>
+            <textarea name="descricao" rows="3" style="resize: none;"><?= htmlspecialchars($descricao ?? '') ?></textarea>
 
-            <label>Preço (R$)</label>
-            <input type="number" step="0.01" min="0" name="preco" value="<?= htmlspecialchars($preco ?? '') ?>" required>
+
 
             <button type="submit" class="submit-btn">Cadastrar Serviço</button>
         </form>
     </div>
 </main>
-
+<script src="js/script.js"></script>
 </body>
 </html>
