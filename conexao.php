@@ -21,7 +21,6 @@ try {
     $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-
     // Cria as tabelas
     $db->exec("CREATE TABLE IF NOT EXISTS usuarios (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,8 +47,21 @@ try {
         criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
+    // Adiciona colunas se ainda não existirem
+    $colunasProdutos = $db->query("SHOW COLUMNS FROM produtos")->fetchAll(PDO::FETCH_COLUMN);
+    if (!in_array('marca', $colunasProdutos)) {
+        $db->exec("ALTER TABLE produtos ADD COLUMN marca VARCHAR(100) DEFAULT NULL");
+    }
+    if (!in_array('fabricante', $colunasProdutos)) {
+        $db->exec("ALTER TABLE produtos ADD COLUMN fabricante VARCHAR(100) DEFAULT NULL");
+    }
 
-    // Professor, acesse essa conta para utilizar os fundamentos do CRUD.
+    $colunasServicos = $db->query("SHOW COLUMNS FROM servicos")->fetchAll(PDO::FETCH_COLUMN);
+    if (!in_array('fornecedor', $colunasServicos)) {
+        $db->exec("ALTER TABLE servicos ADD COLUMN fornecedor VARCHAR(100) DEFAULT NULL");
+    }
+
+    // Criação do usuário gerente padrão
     $nome = 'Gerente';
     $email = 'gerente@admin.com';
     $senha = password_hash('gerente123', PASSWORD_DEFAULT);
@@ -66,11 +78,9 @@ try {
         $stmt->bindParam(':senha', $senha);
         $stmt->bindParam(':usuario_tipo', $usuario_tipo);
         $stmt->execute();
-    } else {
     }
 
 } catch (PDOException $e) {
     die("Erro na conexão com o banco: " . $e->getMessage());
 }
 ?>
-
