@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24-Jun-2025 às 04:38
+-- Tempo de geração: 24-Jun-2025 às 04:56
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -38,10 +38,6 @@ CREATE TABLE `produtos` (
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Extraindo dados da tabela `produtos`
---
-
 -- --------------------------------------------------------
 
 --
@@ -54,13 +50,8 @@ CREATE TABLE `servicos` (
   `descricao` text DEFAULT NULL,
   `preco` decimal(10,2) NOT NULL,
   `fornecedor` varchar(100) DEFAULT NULL,
-  `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
-  `ativo` int(11) DEFAULT 1
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `servicos`
---
 
 -- --------------------------------------------------------
 
@@ -75,6 +66,17 @@ CREATE TABLE `usuarios` (
   `senha` varchar(255) NOT NULL,
   `usuario_tipo` varchar(50) NOT NULL DEFAULT 'cliente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `usuario_tipo`) VALUES
+(1, 'Gerente', 'gerente@admin.com', '$2y$10$2J6b.JPrZB8ejj.7ajZTeOpDmN2o1qeqmuSVwN7kVh2p2UltQvYXG', 'gerente');
+
+--
+-- Índices para tabelas despejadas
+--
 
 --
 -- Índices para tabela `produtos`
@@ -103,19 +105,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `servicos`
 --
 ALTER TABLE `servicos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
