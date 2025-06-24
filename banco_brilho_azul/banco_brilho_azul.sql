@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22-Jun-2025 às 04:51
+-- Tempo de geração: 24-Jun-2025 às 04:38
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.0.30
 
@@ -33,8 +33,14 @@ CREATE TABLE `produtos` (
   `descricao` text DEFAULT NULL,
   `preco` decimal(10,2) NOT NULL,
   `estoque` int(11) DEFAULT 0,
+  `marca` varchar(100) DEFAULT NULL,
+  `fabricante` varchar(100) DEFAULT NULL,
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `produtos`
+--
 
 -- --------------------------------------------------------
 
@@ -47,9 +53,14 @@ CREATE TABLE `servicos` (
   `nome` varchar(100) NOT NULL,
   `descricao` text DEFAULT NULL,
   `preco` decimal(10,2) NOT NULL,
+  `fornecedor` varchar(100) DEFAULT NULL,
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
   `ativo` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `servicos`
+--
 
 -- --------------------------------------------------------
 
@@ -64,17 +75,6 @@ CREATE TABLE `usuarios` (
   `senha` varchar(255) NOT NULL,
   `usuario_tipo` varchar(50) NOT NULL DEFAULT 'cliente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `usuarios`
---
-
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `usuario_tipo`) VALUES
-(1, 'Gerente', 'gerente@admin.com', '$2y$10$LnV63djWwLkk0ng9INg9KurM/MuWZg2QS2dFUH4L4/uh6Ek/9/IEe', 'gerente');
-
---
--- Índices para tabelas despejadas
---
 
 --
 -- Índices para tabela `produtos`
@@ -109,27 +109,14 @@ ALTER TABLE `produtos`
 -- AUTO_INCREMENT de tabela `servicos`
 --
 ALTER TABLE `servicos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
-
---
--- Adição das colunas marca e frabicante na tabela produtos
---
-ALTER TABLE `produtos`
-  ADD COLUMN `marca` VARCHAR(100) DEFAULT NULL,
-  ADD COLUMN `fabricante` VARCHAR(100) DEFAULT NULL;
-
---
--- Adição da coluna fornecedor na tabela serviços
---
-ALTER TABLE `servicos`
-  ADD COLUMN `fornecedor` VARCHAR(100) DEFAULT NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

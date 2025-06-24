@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <label for="preco">Preço (R$):</label>
       <input type="text" id="preco" name="preco" value="<?= htmlspecialchars($preco) ?>" required pattern="^\d+(\,\d{1,2})?$" placeholder="0,00" />
 
-      <label for="estoque">Quantidade:</label>
+      <label for="estoque">Estoque:</label>
       <input type="number" id="estoque" name="estoque" value="<?= htmlspecialchars($estoque) ?>" min="0"/>
 
       <label for="marca">Marca:</label>

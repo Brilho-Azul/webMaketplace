@@ -1,5 +1,4 @@
 <?php
-
 require_once 'conexao.php';
 
 $tipo = $_GET['tipo'] ?? 'produto';
@@ -13,12 +12,28 @@ if ($id <= 0) {
 $erros = [];
 $sucesso = '';
 
+$nome = '';
+$descricao = '';
+$preco = '';
+$estoque = 0;
+$marca = '';
+$fabricante = '';
+$fornecedor = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $descricao = trim($_POST['descricao'] ?? '');
     $preco = floatval(str_replace(',', '.', $_POST['preco'] ?? '0'));
-    $estoque = intval($_POST['estoque'] ?? 0);
 
+    if ($tipo === 'produto') {
+        $estoque = intval($_POST['estoque'] ?? 0);
+        $marca = trim($_POST['marca'] ?? '');
+        $fabricante = trim($_POST['fabricante'] ?? '');
+    } else {
+        $fornecedor = trim($_POST['fornecedor'] ?? '');
+    }
+
+    // Validações
     if ($nome === '') {
         $erros[] = 'Nome é obrigatório.';
     }
@@ -31,20 +46,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$erros) {
         if ($tipo === 'produto') {
-            $stmt = $db->prepare("UPDATE produtos SET nome = ?, descricao = ?, preco = ?, estoque = ? WHERE id = ?");
-            $stmt->execute([$nome, $descricao, $preco, $estoque, $id]);
+            $stmt = $db->prepare("UPDATE produtos SET nome = ?, descricao = ?, preco = ?, estoque = ?, marca = ?, fabricante = ? WHERE id = ?");
+            $stmt->execute([$nome, $descricao, $preco, $estoque, $marca, $fabricante, $id]);
         } else {
-            $stmt = $db->prepare("UPDATE servicos SET nome = ?, descricao = ?, preco = ? WHERE id = ?");
-            $stmt->execute([$nome, $descricao, $preco, $id]);
+            $stmt = $db->prepare("UPDATE servicos SET nome = ?, descricao = ?, preco = ?, fornecedor = ? WHERE id = ?");
+            $stmt->execute([$nome, $descricao, $preco, $fornecedor, $id]);
         }
+
         $sucesso = ucfirst($tipo) . " atualizado com sucesso!";
     }
 } else {
+    // Carrega dados do item
     if ($tipo === 'produto') {
         $stmt = $db->prepare("SELECT * FROM produtos WHERE id = ?");
     } else {
         $stmt = $db->prepare("SELECT * FROM servicos WHERE id = ?");
     }
+
     $stmt->execute([$id]);
     $item = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -55,8 +73,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nome = $item['nome'];
     $descricao = $item['descricao'] ?? '';
-    $preco = $item['preco'];
-    $estoque = $item['estoque'] ?? 0;
+    $preco = number_format($item['preco'], 2, ',', '');
+
+    if ($tipo === 'produto') {
+        $estoque = $item['estoque'] ?? 0;
+        $marca = $item['marca'] ?? '';
+        $fabricante = $item['fabricante'] ?? '';
+    } else {
+        $fornecedor = $item['fornecedor'] ?? '';
+    }
 }
 ?>
 
@@ -95,24 +120,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="POST">
-            <label>Nome</label>
+            <label>Nome:</label>
             <input type="text" name="nome" value="<?= htmlspecialchars($nome) ?>" required>
 
-            <label>Descrição</label>
-            <textarea name="descricao" rows="3"><?= htmlspecialchars($descricao) ?></textarea>
-
-            <label>Preço (R$)</label>
-            <input type="number" step="0.01" min="0" name="preco" value="<?= htmlspecialchars($preco) ?>" required>
+            <label>Preço (R$):</label>
+            <input type="text" id="preco" name="preco" value="<?= htmlspecialchars($preco) ?>" required pattern="^\d+(\,\d{1,2})?$" placeholder="0,00" />
 
             <?php if ($tipo === 'produto'): ?>
-                <label>Estoque</label>
-                <input type="number" min="0" name="estoque" value="<?= htmlspecialchars($estoque) ?>" required>
+                <label>Estoque:</label>
+                <input type="number" name="estoque" value="<?= htmlspecialchars($estoque) ?>" min="0" required>
+
+                <label>Marca:</label>
+                <input type="text" name="marca" value="<?= htmlspecialchars($marca) ?>" placeholder="Digite a marca">
+
+                <label>Fabricante:</label>
+                <input type="text" name="fabricante" value="<?= htmlspecialchars($fabricante) ?>" placeholder="Digite o fabricante">
+            <?php else: ?>
+                <label>Fornecedor:</label>
+                <input type="text" name="fornecedor" value="<?= htmlspecialchars($fornecedor) ?>" placeholder="Digite o fornecedor">
             <?php endif; ?>
+
+            <label>Descrição:</label>
+            <textarea name="descricao" rows="3" style="resize: none;"><?= htmlspecialchars($descricao) ?></textarea>
 
             <button type="submit" class="submit-btn">Salvar Alterações</button>
         </form>
     </div>
 </main>
+
+<script src="js/script.js"></script>
 
 </body>
 </html>

@@ -36,6 +36,8 @@ try {
         descricao TEXT,
         preco DECIMAL(10,2) NOT NULL,
         estoque INT DEFAULT 0,
+        marca VARCHAR(100) DEFAULT NULL,
+        fabricante VARCHAR(100) DEFAULT NULL,
         criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
@@ -44,24 +46,11 @@ try {
         nome VARCHAR(100) NOT NULL,
         descricao TEXT,
         preco DECIMAL(10,2) NOT NULL,
+        fornecedor VARCHAR(100) DEFAULT NULL,
         criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
-    // Adiciona colunas se ainda não existirem
-    $colunasProdutos = $db->query("SHOW COLUMNS FROM produtos")->fetchAll(PDO::FETCH_COLUMN);
-    if (!in_array('marca', $colunasProdutos)) {
-        $db->exec("ALTER TABLE produtos ADD COLUMN marca VARCHAR(100) DEFAULT NULL");
-    }
-    if (!in_array('fabricante', $colunasProdutos)) {
-        $db->exec("ALTER TABLE produtos ADD COLUMN fabricante VARCHAR(100) DEFAULT NULL");
-    }
-
-    $colunasServicos = $db->query("SHOW COLUMNS FROM servicos")->fetchAll(PDO::FETCH_COLUMN);
-    if (!in_array('fornecedor', $colunasServicos)) {
-        $db->exec("ALTER TABLE servicos ADD COLUMN fornecedor VARCHAR(100) DEFAULT NULL");
-    }
-
-    // Criação do usuário gerente padrão
+    // Criação do usuário gerente padrão, acesse esse dados para acessar os princípios do CRUD
     $nome = 'Gerente';
     $email = 'gerente@admin.com';
     $senha = password_hash('gerente123', PASSWORD_DEFAULT);

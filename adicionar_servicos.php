@@ -77,11 +77,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="preco">Preço (R$):</label>
             <input type="text" id="preco" name="preco" value="<?= htmlspecialchars($preco) ?>" required pattern="^\d+(\,\d{1,2})?$" placeholder="0,00" />
 
+            <label for="fornecedor">Fornecedor:</label>
+            <input type="text" id="fornecedor" name="fornecedor" value="<?= htmlspecialchars($fornecedor) ?>" placeholder="Digite o nome do fornecedor" />
+            
             <label>Descrição</label>
             <textarea name="descricao" rows="3" style="resize: none;"><?= htmlspecialchars($descricao ?? '') ?></textarea>
 
-            <label for="fornecedor">Fabricante:</label>
-            <input type="text" id="fornecedor" name="fornecedor" value="<?= htmlspecialchars($fornecedor) ?>" placeholder="Digite o nome do fornecedor" />
 
 
             <button type="submit" class="submit-btn">Cadastrar Serviço</button>
