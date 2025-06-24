@@ -118,6 +118,19 @@ ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 COMMIT;
 
+--
+-- Adição das colunas marca e frabicante na tabela produtos
+--
+ALTER TABLE `produtos`
+  ADD COLUMN `marca` VARCHAR(100) DEFAULT NULL,
+  ADD COLUMN `fabricante` VARCHAR(100) DEFAULT NULL;
+
+--
+-- Adição da coluna fornecedor na tabela serviços
+--
+ALTER TABLE `servicos`
+  ADD COLUMN `fornecedor` VARCHAR(100) DEFAULT NULL;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
